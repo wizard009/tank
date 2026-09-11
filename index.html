@@ -471,22 +471,19 @@
     .toast.warning { border-color: #ffa500; }
     .toast.warning .toast-icon { color: #ffa500; }
 
-    /* ==========================================
-       MOBILE CONTROLS - RAISED POSITION
-       ========================================== */
     #touch-controls {
         display: none;
         position: absolute;
-        bottom: 0; left: 0; width: 100%; height: 280px; /* Increased height */
+        bottom: 0; left: 0; width: 100%; height: 280px;
         pointer-events: none;
         z-index: 50;
-        padding-bottom: env(safe-area-inset-bottom); /* Support for iOS home indicator */
+        padding-bottom: env(safe-area-inset-bottom);
     }
     
     .dpad {
         position: absolute;
         left: 25px; 
-        bottom: 60px; /* RAISED from 25px to 60px */
+        bottom: 60px;
         width: 150px; height: 150px;
         pointer-events: auto;
     }
@@ -518,7 +515,7 @@
     .fire-btn {
         position: absolute;
         right: 35px; 
-        bottom: 80px; /* RAISED from 45px to 80px */
+        bottom: 80px;
         width: 90px; height: 90px;
         background: rgba(255, 50, 50, 0.2);
         border: 3px solid rgba(255, 50, 50, 0.5);
@@ -1120,6 +1117,10 @@ let conn = null;
 let roomCode = '';
 let remoteInput = { up: false, down: false, left: false, right: false, fire: false };
 
+// NETWORK THROTTLING (CRITICAL FIX FOR GUEST SYNC)
+let lastStateTime = 0;
+let lastInputTime = 0;
+
 // ==========================================
 // UI ELEMENTS
 // ==========================================
@@ -1465,36 +1466,54 @@ function setupGuestGame(data) {
     gameEnded = false;
 }
 
+// THROTTLED INPUT SENDING (30 FPS)
 function sendInput() {
     if (conn && conn.open && onlineRole === 'guest') {
-        const input = {
-            up: keys['w'] || keys['W'] || keys['ArrowUp'] || touchInput.up,
-            down: keys['s'] || keys['S'] || keys['ArrowDown'] || touchInput.down,
-            left: keys['a'] || keys['A'] || keys['ArrowLeft'] || touchInput.left,
-            right: keys['d'] || keys['D'] || keys['ArrowRight'] || touchInput.right,
-            fire: keys[' '] || keys['Enter'] || touchInput.fire
-        };
-        conn.send({ type: 'input', input: input });
+        const now = performance.now();
+        if (now - lastInputTime < 33) return;
+        lastInputTime = now;
+        
+        try {
+            const input = {
+                up: keys['w'] || keys['W'] || keys['ArrowUp'] || touchInput.up,
+                down: keys['s'] || keys['S'] || keys['ArrowDown'] || touchInput.down,
+                left: keys['a'] || keys['A'] || keys['ArrowLeft'] || touchInput.left,
+                right: keys['d'] || keys['D'] || keys['ArrowRight'] || touchInput.right,
+                fire: keys[' '] || keys['Enter'] || touchInput.fire
+            };
+            conn.send({ type: 'input', input: input });
+        } catch (e) {
+            console.error("Error sending input:", e);
+        }
     }
 }
 
+// THROTTLED STATE SENDING (20 FPS)
 function sendState() {
     if (conn && conn.open && onlineRole === 'host') {
-        const state = {
-            players: players.map(p => ({ 
-                x: p.x, y: p.y, dir: p.dir, alive: p.alive, lives: p.lives, 
-                upgradeLevel: p.upgradeLevel, invincible: p.invincible,
-                frozen: p.frozen, toxined: p.toxined
-            })),
-            enemies: enemies.map(e => ({ x: e.x, y: e.y, dir: e.dir, alive: e.alive })),
-            bullets: bullets.map(b => ({ x: b.x, y: b.y, dir: b.dir, owner: b.owner, ownerId: b.ownerId })),
-            items: items.map(i => ({ x: i.x, y: i.y, type: i.type })),
-            bases: bases.map(b => ({ alive: b.alive })),
-            floatingTexts: floatingTexts.map(ft => ({ x: ft.x, y: ft.y, text: ft.text, color: ft.color, life: ft.life, maxLife: ft.maxLife })),
-            gameEnded: gameEnded,
-            winner: gameEnded ? (typeof window.lastWinner !== 'undefined' ? window.lastWinner : 0) : 0
-        };
-        conn.send({ type: 'state', state: state });
+        const now = performance.now();
+        if (now - lastStateTime < 50) return;
+        lastStateTime = now;
+        
+        try {
+            const state = {
+                players: players.map(p => ({ 
+                    x: p.x, y: p.y, dir: p.dir, alive: p.alive, lives: p.lives, 
+                    upgradeLevel: p.upgradeLevel, invincible: p.invincible,
+                    frozen: p.frozen, toxined: p.toxined
+                })),
+                enemies: enemies.map(e => ({ x: e.x, y: e.y, dir: e.dir, alive: e.alive })),
+                bullets: bullets.map(b => ({ x: b.x, y: b.y, dir: b.dir, owner: b.owner, ownerId: b.ownerId })),
+                items: items.map(i => ({ x: i.x, y: i.y, type: i.type })),
+                bases: bases.map(b => ({ alive: b.alive })),
+                floatingTexts: floatingTexts.map(ft => ({ x: ft.x, y: ft.y, text: ft.text, color: ft.color, life: ft.life, maxLife: ft.maxLife })),
+                gameEnded: gameEnded,
+                winner: gameEnded ? (typeof window.lastWinner !== 'undefined' ? window.lastWinner : 0) : 0
+            };
+            conn.send({ type: 'state', state: state });
+        } catch (e) {
+            console.error("Error sending state:", e);
+        }
     }
 }
 
@@ -2175,6 +2194,9 @@ function drawMap() {
     }
 }
 
+// ==========================================
+// GAME LOOP
+// ==========================================
 function gameLoop() {
     if (gameState === 'PLAYING') {
         if (onlineRole === 'host' || gameMode !== 'online') {
@@ -2184,6 +2206,7 @@ function gameLoop() {
             floatingTexts.forEach(t => t.update());
             particles = particles.filter(p => p.life > 0);
             floatingTexts = floatingTexts.filter(t => t.life > 0);
+            updateHUD(); // FIX: Ensure HUD updates for guest
         }
         draw();
         
