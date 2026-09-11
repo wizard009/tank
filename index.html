@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Tank Battle Arena Online</title>
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 <style>
@@ -471,17 +471,22 @@
     .toast.warning { border-color: #ffa500; }
     .toast.warning .toast-icon { color: #ffa500; }
 
+    /* ==========================================
+       MOBILE CONTROLS - RAISED POSITION
+       ========================================== */
     #touch-controls {
         display: none;
         position: absolute;
-        bottom: 0; left: 0; width: 100%; height: 220px;
+        bottom: 0; left: 0; width: 100%; height: 280px; /* Increased height */
         pointer-events: none;
         z-index: 50;
+        padding-bottom: env(safe-area-inset-bottom); /* Support for iOS home indicator */
     }
     
     .dpad {
         position: absolute;
-        left: 25px; bottom: 25px;
+        left: 25px; 
+        bottom: 60px; /* RAISED from 25px to 60px */
         width: 150px; height: 150px;
         pointer-events: auto;
     }
@@ -512,7 +517,8 @@
 
     .fire-btn {
         position: absolute;
-        right: 35px; bottom: 45px;
+        right: 35px; 
+        bottom: 80px; /* RAISED from 45px to 80px */
         width: 90px; height: 90px;
         background: rgba(255, 50, 50, 0.2);
         border: 3px solid rgba(255, 50, 50, 0.5);
@@ -832,7 +838,7 @@
 
 <script>
 // ==========================================
-// ANIMATED BACKGROUND (RENAMED VARIABLES TO AVOID CONFLICT)
+// ANIMATED BACKGROUND
 // ==========================================
 const bgCanvas = document.getElementById('bg-canvas');
 const bgCtx = bgCanvas.getContext('2d');
@@ -844,7 +850,6 @@ function resizeBg() {
 resizeBg();
 window.addEventListener('resize', resizeBg);
 
-// FIXED: Renamed from 'particles' to 'bgParticles' to avoid conflict with game particles
 const bgParticles = [];
 for (let i = 0; i < 50; i++) {
     bgParticles.push({
@@ -1099,7 +1104,7 @@ let playerColor = localStorage.getItem('tankPlayerColor') || '#4CAF50';
 let players = [];
 let enemies = [];
 let bullets = [];
-let particles = []; // Game particles (now no conflict with bgParticles)
+let particles = [];
 let items = [];
 let floatingTexts = [];
 let map = [];
