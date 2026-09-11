@@ -21,9 +21,6 @@
         touch-action: none;
     }
 
-    /* ==========================================
-       ANIMATED BACKGROUND
-       ========================================== */
     #bg-canvas {
         position: fixed;
         top: 0; left: 0;
@@ -54,9 +51,6 @@
         border: 2px solid rgba(255, 215, 0, 0.2);
     }
 
-    /* ==========================================
-       MENU OVERLAY - PREMIUM DESIGN
-       ========================================== */
     .menu-overlay {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -79,9 +73,6 @@
     
     .menu-overlay.hidden { display: none; }
 
-    /* ==========================================
-       MAIN MENU - REDESIGNED
-       ========================================== */
     .main-menu-wrapper {
         display: flex;
         flex-direction: column;
@@ -160,9 +151,6 @@
         border-radius: 2px;
     }
 
-    /* ==========================================
-       PREMIUM BUTTONS
-       ========================================== */
     .btn {
         position: relative;
         background: linear-gradient(135deg, rgba(42, 42, 53, 0.8) 0%, rgba(31, 31, 40, 0.8) 100%);
@@ -240,9 +228,6 @@
         margin: 6px 0;
     }
 
-    /* ==========================================
-       INPUT FIELDS
-       ========================================== */
     .input-field {
         background: rgba(31, 31, 40, 0.6);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -265,9 +250,6 @@
         background: rgba(31, 31, 40, 0.9);
     }
 
-    /* ==========================================
-       COLOR PICKER
-       ========================================== */
     .color-picker {
         display: flex;
         gap: 10px;
@@ -309,9 +291,6 @@
         text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     }
 
-    /* ==========================================
-       ROOM CODE DISPLAY
-       ========================================== */
     .room-code {
         font-size: clamp(3rem, 12vw, 5rem);
         font-weight: 900;
@@ -359,9 +338,6 @@
         100% { transform: rotate(360deg); }
     }
 
-    /* ==========================================
-       CUSTOM MODAL NOTIFICATION
-       ========================================== */
     .modal-backdrop {
         position: fixed;
         top: 0; left: 0;
@@ -440,9 +416,6 @@
         font-size: 0.9rem;
     }
 
-    /* ==========================================
-       TOAST NOTIFICATION
-       ========================================== */
     .toast-container {
         position: fixed;
         top: 20px;
@@ -498,9 +471,6 @@
     .toast.warning { border-color: #ffa500; }
     .toast.warning .toast-icon { color: #ffa500; }
 
-    /* ==========================================
-       TOUCH CONTROLS
-       ========================================== */
     #touch-controls {
         display: none;
         position: absolute;
@@ -564,9 +534,6 @@
         #touch-controls { display: block; }
     }
 
-    /* ==========================================
-       HUD
-       ========================================== */
     #hud {
         position: absolute;
         top: 0; left: 0; right: 0;
@@ -653,9 +620,6 @@
     
     #exit-btn.hidden { display: none; }
 
-    /* ==========================================
-       LEVEL GRID
-       ========================================== */
     .level-grid {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
@@ -696,9 +660,6 @@
         box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
     }
 
-    /* ==========================================
-       FOOTER
-       ========================================== */
     .main-footer {
         margin-top: 20px;
         text-align: center;
@@ -712,9 +673,6 @@
         font-weight: 600;
     }
 
-    /* ==========================================
-       SOUND TOGGLE
-       ========================================== */
     .sound-toggle {
         position: absolute;
         top: 15px;
@@ -737,7 +695,6 @@
         color: #ffd700;
     }
 
-    /* Scrollbar */
     .menu-overlay::-webkit-scrollbar { width: 6px; }
     .menu-overlay::-webkit-scrollbar-track { background: transparent; }
     .menu-overlay::-webkit-scrollbar-thumb { background: rgba(255, 215, 0, 0.3); border-radius: 3px; }
@@ -745,7 +702,6 @@
 </head>
 <body>
 
-<!-- Animated Background -->
 <canvas id="bg-canvas"></canvas>
 
 <div id="game-container">
@@ -765,34 +721,32 @@
         <div class="fire-btn" id="fire-btn">FIRE</div>
     </div>
 
-    <!-- MAIN MENU - REDESIGNED -->
     <div id="main-menu" class="menu-overlay">
         <button class="sound-toggle" id="sound-toggle">🔊</button>
         <div class="main-menu-wrapper">
             <div class="logo-container">
                 <div class="logo-badge">⚡ ONLINE EDITION ⚡</div>
                 <div class="menu-title">TANK<br>BATTLE</div>
-                <div class="menu-subtitle">Arena Combat</div>
+                <div class="menu-subtitle">Arena</div>
                 <div class="menu-divider"></div>
             </div>
             
             <input type="text" id="player-name-input" class="input-field" placeholder="✎ Nama Player" maxlength="12">
             
-            <div style="color: #8a8a9a; font-size: 0.8rem; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase;">Warna Tank</div>
+            <div style="color: #8a8a9a; font-size: 0.8rem; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase;">Pilih Warna Tank</div>
             <div class="color-picker" id="color-picker"></div>
             
-            <button class="btn btn-primary" id="btn-single">🎮 Single Player</button>
-            <button class="btn" id="btn-online">🌐 Multiplayer Online</button>
-            <button class="btn btn-danger" id="btn-quit-main">🚪 Keluar Game</button>
+            <button class="btn btn-primary" id="btn-single">Single Player</button>
+            <button class="btn" id="btn-online">Multiplayer Online</button>
+            <button class="btn btn-danger" id="btn-quit-main">Keluar Game</button>
             
             <div class="main-footer">
-                <div>v2.0 <span class="version">PREMIUM</span></div>
-                <div style="margin-top: 5px;">© 2024 Tank Battle Arena</div>
+                <div><span class="version">RVLTN Dev. Studio</span></div>
+                <div style="margin-top: 5px;">© 2026 Tank Battle Arena</div>
             </div>
         </div>
     </div>
 
-    <!-- SINGLE PLAYER LEVEL SELECT -->
     <div id="level-menu" class="menu-overlay hidden">
         <div class="menu-title" style="font-size: 2rem;">Pilih Level</div>
         <div class="menu-subtitle">Progress: <span id="current-level-display" style="color: #ffd700; font-weight: 700;">1</span>/50</div>
@@ -801,7 +755,6 @@
         <button class="btn" id="btn-back-level">← Kembali</button>
     </div>
 
-    <!-- ONLINE MODE SELECT -->
     <div id="online-mode-menu" class="menu-overlay hidden">
         <div class="menu-title" style="font-size: 2rem;">Mode Online</div>
         <div class="menu-subtitle">Pilih mode permainan</div>
@@ -810,7 +763,6 @@
         <button class="btn" id="btn-back-online-mode">← Kembali</button>
     </div>
 
-    <!-- ONLINE MENU -->
     <div id="online-menu" class="menu-overlay hidden">
         <div class="menu-title" style="font-size: 2rem;">Multiplayer</div>
         <div class="menu-subtitle" id="online-mode-display" style="color: #4ecdc4;">Mode: Co-op</div>
@@ -819,7 +771,6 @@
         <button class="btn" id="btn-back-online">← Kembali</button>
     </div>
 
-    <!-- CREATE ROOM -->
     <div id="create-room-menu" class="menu-overlay hidden">
         <div class="menu-title" style="font-size: 1.8rem;">Buat Room</div>
         <div class="status-text" id="create-status">Menghubungkan ke server...</div>
@@ -830,7 +781,6 @@
         <button class="btn btn-danger hidden" id="btn-cancel-create">Batal</button>
     </div>
 
-    <!-- JOIN ROOM -->
     <div id="join-room-menu" class="menu-overlay hidden">
         <div class="menu-title" style="font-size: 1.8rem;">Gabung Room</div>
         <div class="menu-subtitle">Masukkan 4 digit kode room</div>
@@ -842,7 +792,6 @@
         </div>
     </div>
 
-    <!-- WAITING ROOM -->
     <div id="waiting-room" class="menu-overlay hidden">
         <div class="menu-title" style="font-size: 1.8rem;">Lobby</div>
         <div class="status-text">Kode Room: <span id="lobby-code" style="color: #4ecdc4; font-weight: bold; letter-spacing: 3px;"></span></div>
@@ -852,14 +801,12 @@
         <button class="btn btn-danger" id="btn-leave-lobby">Tinggalkan Lobby</button>
     </div>
 
-    <!-- PAUSE MENU -->
     <div id="pause-menu" class="menu-overlay hidden">
         <div class="menu-title" style="font-size: 2.5rem;">⏸ Pause</div>
         <button class="btn btn-primary" id="btn-resume">▶ Lanjutkan</button>
         <button class="btn btn-danger" id="btn-quit-game">🚪 Keluar ke Menu</button>
     </div>
 
-    <!-- GAMEOVER MENU -->
     <div id="gameover-menu" class="menu-overlay hidden">
         <div class="menu-title" style="font-size: 2.5rem;" id="gameover-title">Game Over</div>
         <div class="menu-subtitle" id="gameover-subtitle"></div>
@@ -869,10 +816,8 @@
     </div>
 </div>
 
-<!-- Toast Container -->
 <div class="toast-container" id="toast-container"></div>
 
-<!-- Custom Modal -->
 <div class="modal-backdrop" id="modal-backdrop">
     <div class="modal-box">
         <div class="modal-icon" id="modal-icon">⚠️</div>
@@ -887,7 +832,7 @@
 
 <script>
 // ==========================================
-// ANIMATED BACKGROUND
+// ANIMATED BACKGROUND (RENAMED VARIABLES TO AVOID CONFLICT)
 // ==========================================
 const bgCanvas = document.getElementById('bg-canvas');
 const bgCtx = bgCanvas.getContext('2d');
@@ -899,9 +844,10 @@ function resizeBg() {
 resizeBg();
 window.addEventListener('resize', resizeBg);
 
-const particles = [];
+// FIXED: Renamed from 'particles' to 'bgParticles' to avoid conflict with game particles
+const bgParticles = [];
 for (let i = 0; i < 50; i++) {
-    particles.push({
+    bgParticles.push({
         x: Math.random() * bgCanvas.width,
         y: Math.random() * bgCanvas.height,
         vx: (Math.random() - 0.5) * 0.3,
@@ -914,7 +860,6 @@ for (let i = 0; i < 50; i++) {
 function animateBg() {
     bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
     
-    // Draw grid
     bgCtx.strokeStyle = 'rgba(255, 215, 0, 0.03)';
     bgCtx.lineWidth = 1;
     const gridSize = 50;
@@ -931,8 +876,7 @@ function animateBg() {
         bgCtx.stroke();
     }
     
-    // Draw particles
-    particles.forEach(p => {
+    bgParticles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
         
@@ -946,19 +890,18 @@ function animateBg() {
         bgCtx.fill();
     });
     
-    // Connect nearby particles
     bgCtx.globalAlpha = 0.15;
     bgCtx.strokeStyle = '#ffd700';
     bgCtx.lineWidth = 0.5;
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
+    for (let i = 0; i < bgParticles.length; i++) {
+        for (let j = i + 1; j < bgParticles.length; j++) {
+            const dx = bgParticles[i].x - bgParticles[j].x;
+            const dy = bgParticles[i].y - bgParticles[j].y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < 120) {
                 bgCtx.beginPath();
-                bgCtx.moveTo(particles[i].x, particles[i].y);
-                bgCtx.lineTo(particles[j].x, particles[j].y);
+                bgCtx.moveTo(bgParticles[i].x, bgParticles[i].y);
+                bgCtx.lineTo(bgParticles[j].x, bgParticles[j].y);
                 bgCtx.stroke();
             }
         }
@@ -1156,7 +1099,7 @@ let playerColor = localStorage.getItem('tankPlayerColor') || '#4CAF50';
 let players = [];
 let enemies = [];
 let bullets = [];
-let particles = [];
+let particles = []; // Game particles (now no conflict with bgParticles)
 let items = [];
 let floatingTexts = [];
 let map = [];
@@ -2669,7 +2612,6 @@ if (!ctx.roundRect) {
 initSettings();
 gameLoop();
 
-// Welcome toast
 setTimeout(() => {
     showToast('Selamat datang di Tank Battle Arena!', 'info', 3000);
 }, 500);
